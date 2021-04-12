@@ -9,8 +9,7 @@ Additionally, all files will have a 'STRUCTURE' label.
 import warnings
 import random
 import numpy as np
-from matplotlib import pyplot as plt
-from matplotlib import colors
+import plotly.express as plot
 
 # local
 from . import comps
