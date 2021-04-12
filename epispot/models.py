@@ -8,7 +8,7 @@ predictions.
 
 - Model(object)
 """
-import inspect
+
 
 class Model(object):
     """
@@ -158,34 +158,3 @@ class Model(object):
             self.layer_map = [layer_map]
         else:
             self.layer_map.append(layer_map)
-
-def export (model, file: str):
-    """
-    Exports a model into a file, in which it can be distributed and used by others.
-
-    - model: The model to export.
-    - file: The target output file in which to put the model. `.json` and `.yml` file types supported.
-
-    - Returns a file which can be shared and distributed, which will allow users to duplicate your model.
-    """
-    with open(file, 'a') as modelfile:
-        for i in inspect.getmembers(model):
-            if not i[0].startswith('_'):
-                if not inspect.ismethod(i[1]): 
-                    if file.endswith('.yml'):
-                        if type(i[1]) == list:
-                            modelfile.write(i[0]+': \n')
-                            for x in i[1]:
-                                if type(x) != str:
-                                    for b in inspect.getmembers(x):
-                                        if not b[0].startswith('_'):
-                                            if not inspect.ismethod(b[1]):
-                                                modelfile.write('  - ' + b[0] + ': \n    - '+str(b[1])+'\n')
-                                else:
-                                    modelfile.write('  - '+str(x)+'\n')
-                        else:
-                            modelfile.write(i[0]+': '+str(i[1])+'\n')
-                    elif file.endswith('.json'):
-                        pass
-                    else:
-                        raise ValueError(file + ' is not a .json or .yml file.')
